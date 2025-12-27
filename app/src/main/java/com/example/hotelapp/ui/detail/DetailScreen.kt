@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,8 +21,12 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,14 +49,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.hotelapp.R
 import com.example.hotelapp.ui.bottomSheets.BookingBottomSheet
 import com.example.hotelapp.ui.components.BookingNowButton
 import com.example.hotelapp.ui.components.FeatureChip
 import com.example.hotelapp.ui.components.PreviewCard
 import com.example.hotelapp.ui.components.RatingChip
+import com.example.hotelapp.ui.detail.components.DetailItem
 import com.example.hotelapp.ui.detail.components.DetailScreenTopBar
-import com.example.hotelapp.ui.theme.Gray
+import com.example.hotelapp.ui.detail.components.FacilityItem
+import com.example.hotelapp.ui.detail.components.ReviewItem
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -77,13 +86,21 @@ fun DetailScreen(
         }
     }
 
-    Scaffold(topBar = {
-        DetailScreenTopBar(
-            onBackButtonClick = onBackButtonClick,
-            scrollBehavior = scrollBehavior,
-            onDetailsButtonClick = {}
-        )
-    }) { paddingValues ->
+    Scaffold(
+        topBar = {
+            DetailScreenTopBar(
+                onBackButtonClick = onBackButtonClick,
+                scrollBehavior = scrollBehavior,
+                onDetailsButtonClick = {}
+            )
+
+        },
+        bottomBar = {
+            BookingNowButton(
+                onClick = { showSheet = true },
+            )
+        }
+    ) { paddingValues ->
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -115,6 +132,7 @@ fun DetailScreen(
                     location = "NYC"
                 )
             }
+            item { DetailSection() }
             item {
                 HotelDescription(
                     description = "Aston Hotel, Alice Springs NT 0870," +
@@ -127,12 +145,10 @@ fun DetailScreen(
                             " perfect for a romantic, charming getaway."
                 )
             }
+            item { FacilitiesSection() }
             item { PreviewSection(imageList) }
-            item {
-                BookingNowButton(
-                    onClick = { showSheet = true }
-                )
-            }
+
+            item { ReviewSection() }
         }
 
     }
@@ -201,7 +217,7 @@ private fun HotelHeadline(
             Text(
                 text = " /night",
                 style = MaterialTheme.typography.titleMedium,
-                color = Gray
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
 
@@ -225,6 +241,28 @@ private fun HotelHeadline(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
+    }
+}
+
+@Composable
+private fun DetailSection() {
+    Text(text = "Details",
+        color = MaterialTheme.colorScheme.primary,
+        style = MaterialTheme.typography.titleMedium,
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = 28.dp,
+                vertical = 8.dp
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        DetailItem("Hotels", Icons.Default.Home)
+        DetailItem("4 Bedrooms", Icons.Default.Home)
+        DetailItem("2 Bathrooms", Icons.Default.LocationOn)
+        DetailItem("4000 sqft", Icons.Default.Star)
     }
 }
 
@@ -295,6 +333,53 @@ fun PreviewSection(
                 PreviewCard(image)
             }
         }
+    }
+}
+
+@Composable
+private fun FacilitiesSection() {
+    Column(modifier = Modifier.padding(top = 16.dp).padding(horizontal = 16.dp)) {
+
+        Text("Facilities", fontWeight = FontWeight.Medium)
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        FlowRow(
+            modifier = Modifier.fillMaxWidth(),
+            maxItemsInEachRow = 4,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            FacilityItem("Pool", Icons.Default.Person)
+            FacilityItem("Wi-Fi", Icons.Default.Build)
+            FacilityItem("Restaurant", Icons.Default.Home)
+            FacilityItem("Parking", Icons.Default.LocationOn)
+            FacilityItem("Parking", Icons.Default.LocationOn)
+            FacilityItem("Parking", Icons.Default.LocationOn)
+            FacilityItem("Parking", Icons.Default.LocationOn)
+            FacilityItem("Parking", Icons.Default.LocationOn)
+            FacilityItem("Parking", Icons.Default.LocationOn)
+        }
+    }
+}
+
+@Composable
+private fun ReviewSection() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Review", fontWeight = FontWeight.Medium)
+            Text("See All", color = MaterialTheme.colorScheme.primary, fontSize = 12.sp)
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        ReviewItem(
+            name = "Jenny Wilson",
+            rating = "5.0",
+            comment = "Very nice and comfortable hotel."
+        )
     }
 }
 

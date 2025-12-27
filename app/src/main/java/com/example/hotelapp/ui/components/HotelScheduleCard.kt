@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.hotelapp.R
 import com.example.hotelapp.model.Schedule
-import com.example.hotelapp.ui.theme.Gray
 
 @Composable
 fun HotelScheduleCard(
@@ -98,7 +98,7 @@ fun HotelScheduleCard(
                         )
                         Text(
                             text = " /night",
-                            color = Gray,
+                            color = MaterialTheme.colorScheme.surfaceVariant,
                         )
                     }
                 }

@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.hotelapp.ui.detail.DetailScreen
 import com.example.hotelapp.ui.mainScreen.MainScreen
-import com.example.hotelapp.ui.theme.Gray
+
 
 @Composable
 fun RootNavigationGraph( navController: NavHostController) {

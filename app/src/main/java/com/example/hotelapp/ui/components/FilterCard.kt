@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,8 +22,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.hotelapp.ui.theme.ActiveBlue
-import com.example.hotelapp.ui.theme.WhiteBlue
+
 
 @Composable
 fun FilterCard(
@@ -33,34 +33,47 @@ fun FilterCard(
 
 
 ){
+    val containerColor =
+        if (isActive)
+            MaterialTheme.colorScheme.primaryContainer
+        else
+            MaterialTheme.colorScheme.surfaceContainerLow
+
+    val contentColor =
+        if (isActive)
+            MaterialTheme.colorScheme.onPrimaryContainer
+        else
+            MaterialTheme.colorScheme.onSurface
+
     OutlinedButton(
-        onClick = { onClick },
-        border = BorderStroke(0.dp, Color.Transparent),
-        colors = ButtonDefaults.outlinedButtonColors(containerColor = Color.Transparent),
-        contentPadding = PaddingValues(),
-        modifier = Modifier
-            .padding(end = 8.dp,)
-            .clip(shape = RoundedCornerShape(8.dp))
-            .background(
-                color = if(isActive) ActiveBlue else WhiteBlue,
-                shape = RoundedCornerShape(8.dp)
-            )
+        onClick = onClick,
+        shape = RoundedCornerShape(8.dp),
+        border = BorderStroke(
+            1.dp,
+            MaterialTheme.colorScheme.outlineVariant
+        ),
+        contentPadding = PaddingValues(
+            horizontal = 18.dp,
+            vertical = 8.dp
+        ),
+        colors = ButtonDefaults.outlinedButtonColors(
+            containerColor = containerColor,
+            contentColor = contentColor
+        ),
     ){
         Row(
-            modifier = Modifier
-                .padding(vertical = 8.dp, horizontal = 18.dp,),
             horizontalArrangement = Arrangement.Start
 
         ){
             Icon(
                 imageVector = ImageVector.vectorResource(filterIcon),
                 contentDescription = "",
-                modifier = Modifier.padding(end = 8.dp)
             )
             Text(
                 text = filterName,
-                color = Color(0xFFFFFFFF),
-                fontSize = 14.sp,
+                style = MaterialTheme.typography.labelLarge,
+                modifier = Modifier.padding(start = 8.dp)
+
             )
         }
     }

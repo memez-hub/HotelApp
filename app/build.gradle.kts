@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -58,11 +59,14 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-    implementation("io.coil-kt:coil-compose:2.5.0")
-    implementation("androidx.compose.material3:material3")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:core:1.0.2")
-    implementation("com.maxkeppeler.sheets-compose-dialogs:calendar:1.0.2")
-    implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation("com.google.accompanist:accompanist-navigation-animation:0.34.0")
+    coreLibraryDesugaring(libs.desugar.jdk)
+
+    implementation(libs.coil.compose)
+    implementation(libs.compose.material3)
+
+    implementation(libs.sheets.core)
+    implementation(libs.sheets.calendar)
+
+    implementation(libs.navigation.compose)
+    implementation(libs.accompanist.navigation.animation)
 }
