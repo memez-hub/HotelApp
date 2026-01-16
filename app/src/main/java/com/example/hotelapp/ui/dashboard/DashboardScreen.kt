@@ -43,32 +43,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.hotelapp.R
+import com.example.hotelapp.hotelList
 import com.example.hotelapp.model.Filters
 import com.example.hotelapp.model.Hotel
+import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.ui.components.FilterCard
 import com.example.hotelapp.ui.components.popularList
 
 
 @Composable
 fun DashboardScreen(
-    onHotelCardClick: () -> Unit,
-    paddingValues: PaddingValues
+    navController: NavController
 ) {
-
     val context = LocalContext.current
 
     var selectedFilterId by remember { mutableStateOf<Int?>(null) }
 
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(paddingValues)
     ) {
         item {
             FilterSection(
-                modifier = Modifier.fillMaxWidth(),
                 filterList = filterList,
                 selectedFilterId = selectedFilterId,
                 onFilterClicked = {filterId ->
@@ -102,7 +100,7 @@ fun DashboardScreen(
                 onRedHeartClick = {
                     Toast.makeText(context, "Heart Click", Toast.LENGTH_SHORT).show()
                 },
-                onHotelCardClick = { onHotelCardClick() }
+                onHotelCardClick = { hotelId -> navController.navigate(Route.DetailGraph.create(hotelId)) }
             )
         }
         item {
@@ -127,7 +125,7 @@ fun DashboardScreen(
         }
         popularList(
             populars = hotelList,
-            onCardClick = { onHotelCardClick() }
+            onCardClick = { hotelId -> navController.navigate(Route.DetailGraph.create(hotelId)) }
         )
 
     }
@@ -135,7 +133,6 @@ fun DashboardScreen(
 
 @Composable
 private fun FilterSection(
-    modifier: Modifier,
     filterList: List<Filters>,
     selectedFilterId : Int?,
     onFilterClicked: (Int) -> Unit
@@ -160,14 +157,14 @@ private fun FilterSection(
 private fun HotelSection(
     hotelList: List<Hotel>,
     onRedHeartClick: () -> Unit,
-    onHotelCardClick: () -> Unit
+    onHotelCardClick: (String) -> Unit
 ) {
     LazyRow(modifier = Modifier.padding(end = 12.dp)) {
         items(hotelList) { hotel ->
             CaruselHotelCard(
                 hotel = hotel,
                 onFavoriteClick = onRedHeartClick,
-                onHotelCardClick = onHotelCardClick
+                onHotelCardClick = {onHotelCardClick(hotel.id.toString())}
 
             )
         }
@@ -323,55 +320,5 @@ val filterList = listOf(
     )
 )
 
-val hotelList = listOf(
-    Hotel(
-        id = 1,
-        name = "Hotel",
-        location = "fefe",
-        pricePerNight = "2332",
-        rating = "323",
-        imageRes = R.drawable.hotelimage
-    ),
-    Hotel(
-        id = 1,
-        name = "Hotel",
-        location = "fefe",
-        pricePerNight = "2332",
-        rating = "323",
-        imageRes = R.drawable.hotelimage
-    ),
-    Hotel(
-        id = 1,
-        name = "Hotel",
-        location = "fefe",
-        pricePerNight = "2332",
-        rating = "323",
-        imageRes = R.drawable.hotelimage
-    ),
-    Hotel(
-        id = 1,
-        name = "Hotel",
-        location = "fefe",
-        pricePerNight = "2332",
-        rating = "323",
-        imageRes = R.drawable.hotelimage
-    ),
-    Hotel(
-        id = 1,
-        name = "Hotel",
-        location = "fefe",
-        pricePerNight = "2332",
-        rating = "323",
-        imageRes = R.drawable.hotelimage
-    ),
-    Hotel(
-        id = 1,
-        name = "Hotel",
-        location = "fefe",
-        pricePerNight = "2332",
-        rating = "323",
-        imageRes = R.drawable.hotelimage
-    ),
-)
 
 

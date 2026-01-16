@@ -5,37 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.hotelapp.R
+import com.example.hotelapp.hotelList
 import com.example.hotelapp.model.Hotel
 
 class SearchScreenViewModel : ViewModel() {
 
-    private val _hotels = listOf(
-        Hotel(
-            1, "Grand Palace Hotel", "Paris", "4.5",
-            rating = "rgr",
-            imageRes = R.drawable.hotelimage
-        ),
-        Hotel(
-            1, "Mini place", "Paris", "4.5",
-            rating = "rgr",
-            imageRes = R.drawable.hotelimage
-        ),
-        Hotel(
-            1, "Just Appartment", "Paris", "4.5",
-            rating = "rgr",
-            imageRes = R.drawable.hotelimage
-        ),
-        Hotel(
-            1, "Tower", "Paris", "4.5",
-            rating = "rgr",
-            imageRes = R.drawable.hotelimage
-        ),
-        Hotel(
-            1, "Beach house", "Paris", "4.5",
-            rating = "rgr",
-            imageRes = R.drawable.hotelimage
-        ),
-    )
+    private val _hotels = hotelList
 
     var searchQuery by mutableStateOf("")
         private set

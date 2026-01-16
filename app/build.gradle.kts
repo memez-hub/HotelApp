@@ -69,4 +69,7 @@ dependencies {
 
     implementation(libs.navigation.compose)
     implementation(libs.accompanist.navigation.animation)
+
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
 }

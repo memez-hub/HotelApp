@@ -50,7 +50,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.hotelapp.R
+import com.example.hotelapp.hotelList
+import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.ui.bottomSheets.BookingBottomSheet
 import com.example.hotelapp.ui.components.BookingNowButton
 import com.example.hotelapp.ui.components.FeatureChip
@@ -64,10 +67,10 @@ import com.example.hotelapp.ui.detail.components.ReviewItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(
-    onBackButtonClick: () -> Unit,
+fun DetailScreen(navController: NavController, hotelId: String
 ) {
 
+    val hotel = hotelList.find { it.id == hotelId.toInt() }
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val sheetState = rememberModalBottomSheetState(
@@ -89,7 +92,7 @@ fun DetailScreen(
     Scaffold(
         topBar = {
             DetailScreenTopBar(
-                onBackButtonClick = onBackButtonClick,
+                onBackButtonClick = {navController.navigate(Route.Dashboard.route)},
                 scrollBehavior = scrollBehavior,
                 onDetailsButtonClick = {}
             )
@@ -116,7 +119,7 @@ fun DetailScreen(
                         .padding(16.dp)
                 ) {
                     Image(
-                        painter = painterResource(R.drawable.hotelimage),
+                        painter = painterResource(hotel!!.imageRes),
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -124,12 +127,12 @@ fun DetailScreen(
                     )
                 }
             }
-            item { FeatureSection() }
+            item { FeatureSection(rating = hotel!!.rating) }
             item {
                 HotelHeadline(
-                    hotelName = "Hotel",
-                    pricePerNight = "323.2",
-                    location = "NYC"
+                    hotelName = hotel!!.name,
+                    pricePerNight = hotel.pricePerNight,
+                    location = hotel.location
                 )
             }
             item { DetailSection() }
@@ -155,7 +158,7 @@ fun DetailScreen(
 }
 
 @Composable
-private fun FeatureSection(modifier: Modifier = Modifier) {
+private fun FeatureSection(modifier: Modifier = Modifier, rating: String) {
     LazyRow(modifier = modifier.padding(12.dp)) {
         item {
             FeatureChip(
@@ -177,7 +180,7 @@ private fun FeatureSection(modifier: Modifier = Modifier) {
         }
         item {
             RatingChip(
-                rating = "2.6"
+                rating = rating
             )
         }
     }

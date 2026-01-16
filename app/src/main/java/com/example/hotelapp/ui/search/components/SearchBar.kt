@@ -28,7 +28,8 @@ fun SearchBar(
         onValueChange = onQueryChange,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp),
+
         placeholder = { Text("Search") },
         singleLine = true,
         shape = RoundedCornerShape(12.dp),

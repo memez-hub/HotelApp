@@ -1,22 +1,27 @@
 package com.example.hotelapp.ui.components
 
-import android.net.http.SslCertificate.saveState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.navigation.NavController
 import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.hotelapp.BottomNavItem
+import com.example.hotelapp.navigation.BottomNavItem
 
 @Composable
 fun BottomNavigationBar(
-    navController: NavHostController,
-    items: List<BottomNavItem>
+    navController: NavController,
 ) {
+
+    val items = listOf(
+        BottomNavItem.Home,
+        BottomNavItem.Search,
+        BottomNavItem.Schedule
+    )
+
     NavigationBar {
 
         val navBackStackEntry by navController.currentBackStackEntryAsState()

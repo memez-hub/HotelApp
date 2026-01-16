@@ -15,7 +15,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -27,7 +26,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.hotelapp.model.Hotel
+import androidx.navigation.NavController
+import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.ui.components.HotelCard
 import com.example.hotelapp.ui.search.components.FilterChips
 import com.example.hotelapp.ui.search.components.SearchBar
@@ -36,7 +36,7 @@ import com.example.hotelapp.ui.search.components.SearchBar
 @Composable
 fun SearchScreen(
     viewModel: SearchScreenViewModel = viewModel(),
-    onHotelClick: (Hotel) -> Unit = {},
+    navController: NavController
 ) {
     var selectedFilter by remember { mutableStateOf("All Hotel") }
 
@@ -56,37 +56,34 @@ fun SearchScreen(
             )
         }
     }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        SearchBar(
+            query = viewModel.searchQuery,
+            onQueryChange = viewModel::onSearchQueryChange,
+            onFilterIconClick = { showSheet = true }
+        )
 
-    Scaffold { paddingValues ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
-        ) {
-            SearchBar(
-                query = viewModel.searchQuery,
-                onQueryChange = viewModel::onSearchQueryChange,
-                onFilterIconClick = {showSheet = true}
-            )
+        FilterChips(
+            selected = selectedFilter,
+            onSelected = { selectedFilter = it }
+        )
 
-            FilterChips(
-                selected = selectedFilter,
-                onSelected = { selectedFilter = it }
-            )
+        ResultHeader(viewModel.filteredHotels.size)
 
-            ResultHeader(viewModel.filteredHotels.size)
-
-            LazyColumn {
-                items(viewModel.filteredHotels) { hotel ->
-                    HotelCard(
-                        hotel = hotel,
-                        onCardClick = { onHotelClick(hotel) }
-                    )
-                }
+        LazyColumn {
+            items(viewModel.filteredHotels) { hotel ->
+                HotelCard(
+                    hotel = hotel,
+                    onCardClick = { navController.navigate(Route.DetailGraph.create(hotel.id.toString())) }
+                )
             }
         }
     }
 }
+
 
 @Composable
 fun ResultHeader(resultCount: Int) {

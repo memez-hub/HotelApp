@@ -1,6 +1,5 @@
 package com.example.hotelapp.ui.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,10 +23,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.hotelapp.model.Hotel
 import com.example.hotelapp.ui.theme.GoldStar
 
@@ -57,14 +56,15 @@ fun HotelCard(
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+
                 // Hotel image
-                Image(
-                    painter = painterResource(hotel.imageRes),
+                AsyncImage(
+                    model = hotel.imageRes,
                     contentDescription = hotel.name,
-                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .weight(0.25f)
-                        .clip(RoundedCornerShape(12.dp))
+                        .clip(RoundedCornerShape(12.dp)),
+                    contentScale = ContentScale.Crop
                 )
 
                 Spacer(modifier = Modifier.width(18.dp))

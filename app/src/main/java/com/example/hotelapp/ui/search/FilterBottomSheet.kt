@@ -70,17 +70,21 @@ fun FilterBottomSheet(
 
 @Composable
 private fun CountrySection() {
+    var selectedCountry by remember { mutableStateOf<String?>("France") }
     SectionHeader("Country", "See All")
 
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        listOf("France", "Italia", "Turkey", "Germany").forEach {
+        listOf("France", "Italia", "Turkey", "Germany").forEach { country ->
             FilterChip(
-                selected = it == "France",
-                onClick = { },
-                label = { Text(it) }
+                selected = country == selectedCountry,
+                onClick = {
+                    selectedCountry =
+                        if (selectedCountry == country) null else country
+                },
+                label = { Text(country) }
             )
         }
     }
@@ -90,16 +94,21 @@ private fun CountrySection() {
 
 @Composable
 private fun SortSection() {
+    var selectedFilter by remember { mutableStateOf<String?>("Highest Popularity") }
+
     SectionHeader("Sort Results")
 
     FlowRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        listOf("Highest Popularity", "Highest Price", "Lowest Price").forEach {
+        listOf("Highest Popularity", "Highest Price", "Lowest Price").forEach { filter ->
             FilterChip(
-                selected = it == "Highest Popularity",
-                onClick = { },
-                label = { Text(it) }
+                selected = filter == selectedFilter,
+                onClick = {
+                    selectedFilter =
+                        if (selectedFilter == filter) null else filter
+                },
+                label = { Text(filter) }
             )
         }
     }
@@ -133,13 +142,17 @@ private fun PriceRangeSection() {
 
 @Composable
 private fun StarRatingSection() {
+    var selectedRating by remember { mutableStateOf<Int?>(null) }
     SectionHeader("Star Rating")
 
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         (5 downTo 1).forEach { star ->
             FilterChip(
-                selected = star == 5,
-                onClick = { },
+                selected = star == selectedRating,
+                onClick = {
+                    selectedRating =
+                        if (selectedRating == star) null else star
+                },
                 label = {
                     Row {
                         Icon(Icons.Default.Star, null, modifier = Modifier.size(14.dp))
@@ -155,13 +168,33 @@ private fun StarRatingSection() {
 
 @Composable
 private fun FacilitiesSection() {
+
+    val facilities = listOf(
+        "Wifi",
+        "Swimming Pool",
+        "Parking",
+        "Restaurant"
+    )
+
+    var selectedFacilities by remember { mutableStateOf(setOf<String>()) }
+
     SectionHeader("Facilities", "See All")
 
     FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        FacilityItem("WiFi", true)
-        FacilityItem("Swimming Pool", true)
-        FacilityItem("Parking", false)
-        FacilityItem("Restaurant", false)
+        facilities.forEach { facility ->
+            FacilityItem(
+                label = facility,
+                checked = facility in selectedFacilities,
+                onCheckChange = { checked ->
+                    selectedFacilities =
+                        if (checked)
+                            selectedFacilities + facility
+                        else
+                            selectedFacilities - facility
+                }
+
+            )
+        }
     }
 
     Spacer(Modifier.height(16.dp))
@@ -169,23 +202,42 @@ private fun FacilitiesSection() {
 
 @Composable
 fun AccommodationSection() {
+    val accommodationTypes = listOf(
+        "Hotels",
+        "Resorts",
+        "Villas",
+        "Apartments"
+    )
+
+    var selectedAccommodationTypes by remember { mutableStateOf(setOf<String>()) }
+
     SectionHeader("Accommodation Type", "See All")
 
     FlowRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        FacilityItem("Hotels", true)
-        FacilityItem("Resorts", false)
-        FacilityItem("Villas", true)
-        FacilityItem("Apartments", false)
+        accommodationTypes.forEach { accommodationType ->
+            FacilityItem(
+                label = accommodationType,
+                checked = accommodationType in selectedAccommodationTypes,
+                onCheckChange = { checked ->
+                    selectedAccommodationTypes =
+                        if (checked)
+                            selectedAccommodationTypes + accommodationType
+                        else
+                            selectedAccommodationTypes - accommodationType
+                }
+
+            )
+        }
     }
 }
 
 
 @Composable
-private fun FacilityItem(label: String, checked: Boolean) {
+private fun FacilityItem(label: String, checked: Boolean, onCheckChange: (Boolean) -> Unit) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(
             checked = checked,
-            onCheckedChange = { }
+            onCheckedChange = onCheckChange
         )
         Text(label)
     }

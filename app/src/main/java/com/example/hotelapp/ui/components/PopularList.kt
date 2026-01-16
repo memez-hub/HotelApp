@@ -6,12 +6,12 @@ import com.example.hotelapp.model.Hotel
 
 fun LazyListScope.popularList(
     populars: List<Hotel>,
-    onCardClick: () -> Unit
+    onCardClick: (String) -> Unit
 ) {
     items(populars) { item ->
         HotelCard(
             hotel = item,
-            onCardClick = onCardClick
+            onCardClick = {onCardClick(item.id.toString())}
         )
     }
 }

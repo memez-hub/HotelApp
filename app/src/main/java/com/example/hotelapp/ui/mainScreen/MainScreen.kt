@@ -1,22 +1,28 @@
 package com.example.hotelapp.ui.mainScreen
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.hotelapp.BottomNavItem
-import com.example.hotelapp.navGraphs.HomeNavigationGraph
+import com.example.hotelapp.navigation.BottomNavItem
+import com.example.hotelapp.navigation.HomeNavGraph
+import com.example.hotelapp.navigation.SetupNavGraph
 import com.example.hotelapp.ui.components.BottomNavigationBar
 import com.example.hotelapp.ui.dashboard.components.DashboardScreenTopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(onHotelCardClick: () -> Unit) {
-    val navController = rememberNavController()
+fun MainScreen(navController: NavController, content: @Composable ()-> Unit) {
+
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -24,7 +30,8 @@ fun MainScreen(onHotelCardClick: () -> Unit) {
 
     val items = listOf(
         BottomNavItem.Home,
-        BottomNavItem.Schedule
+        BottomNavItem.Schedule,
+        BottomNavItem.Search
     )
 
     val showBottomBar = items.any { it.route == currentRoute }
@@ -33,22 +40,19 @@ fun MainScreen(onHotelCardClick: () -> Unit) {
         containerColor = MaterialTheme.colorScheme.background,
 
         topBar = {
-            if(showBottomBar){
+            if(currentRoute != BottomNavItem.Search.route){
                 DashboardScreenTopBar()
             }
         },
         bottomBar = {
             BottomNavigationBar(
-                navController = navController,
-                items = items
+                navController = navController
             )
         }
     ) { padding ->
-        HomeNavigationGraph(
-            navController = navController,
-            padding,
-            onHotelCardClick = onHotelCardClick
-        )
+        Box(Modifier.padding(padding)){
+            content()
+        }
 
     }
 }

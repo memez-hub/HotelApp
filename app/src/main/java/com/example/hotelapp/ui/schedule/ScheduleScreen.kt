@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -37,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.hotelapp.R
 import com.example.hotelapp.model.Schedule
 import com.example.hotelapp.ui.components.scheduleList
@@ -50,7 +52,7 @@ import java.time.YearMonth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScheduleScreen(paddingValues: PaddingValues) {
+fun ScheduleScreen(navController: NavController) {
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
     var selectedDate by remember { mutableStateOf(LocalDate.now()) }
@@ -71,7 +73,7 @@ fun ScheduleScreen(paddingValues: PaddingValues) {
     )
 
 
-    LazyColumn(modifier = Modifier.padding(paddingValues)) {
+    LazyColumn(modifier = Modifier.fillMaxSize()) {
 
         item { DatePickerRow(onDateButtonClick = { calendarState.show() }) }
 
