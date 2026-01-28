@@ -59,7 +59,7 @@ fun HotelCard(
 
                 // Hotel image
                 AsyncImage(
-                    model = hotel.imageRes,
+                    model = hotel.imageUrl ?: hotel.imageRes,
                     contentDescription = hotel.name,
                     modifier = Modifier
                         .weight(0.25f)

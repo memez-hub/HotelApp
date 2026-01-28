@@ -1,7 +1,6 @@
 package com.example.hotelapp.presentation.dashboard
 
 import android.widget.Toast
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,15 +39,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.hotelapp.R
 import com.example.hotelapp.domain.local.model.Filters
 import com.example.hotelapp.domain.local.model.Hotel
+import com.example.hotelapp.hotelList
 import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.presentation.components.FilterCard
 import com.example.hotelapp.presentation.components.popularList
@@ -67,7 +67,7 @@ fun DashboardScreen(
         viewModel.loadHotels()
     }
 
-//    var hotelList = viewModel.hotels
+    val hotelList = if (viewModel.hotels.isNotEmpty()) viewModel.hotels else hotelList
 
     LazyColumn(
         modifier = Modifier
@@ -77,7 +77,7 @@ fun DashboardScreen(
             FilterSection(
                 filterList = filterList,
                 selectedFilterId = selectedFilterId,
-                onFilterClicked = {filterId ->
+                onFilterClicked = { filterId ->
                     selectedFilterId = filterId
                 },
             )
@@ -108,7 +108,13 @@ fun DashboardScreen(
                 onRedHeartClick = {
                     Toast.makeText(context, "Heart Click", Toast.LENGTH_SHORT).show()
                 },
-                onHotelCardClick = { hotelId -> navController.navigate(Route.DetailGraph.create(hotelId)) }
+                onHotelCardClick = { hotelId ->
+                    navController.navigate(
+                        Route.DetailGraph.create(
+                            hotelId
+                        )
+                    )
+                }
             )
         }
         item {
@@ -142,7 +148,7 @@ fun DashboardScreen(
 @Composable
 private fun FilterSection(
     filterList: List<Filters>,
-    selectedFilterId : Int?,
+    selectedFilterId: Int?,
     onFilterClicked: (Int) -> Unit
 ) {
     LazyRow(
@@ -172,7 +178,7 @@ private fun HotelSection(
             CaruselHotelCard(
                 hotel = hotel,
                 onFavoriteClick = onRedHeartClick,
-                onHotelCardClick = {onHotelCardClick(hotel.id.toString())}
+                onHotelCardClick = { onHotelCardClick(hotel.id.toString()) }
 
             )
         }
@@ -202,8 +208,8 @@ private fun CaruselHotelCard(
         Column {
             // Image section
             Box {
-                Image(
-                    painter = painterResource(hotel.imageRes),
+                AsyncImage(
+                    model = hotel.imageUrl ?: hotel.imageRes,
                     contentDescription = hotel.name,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier

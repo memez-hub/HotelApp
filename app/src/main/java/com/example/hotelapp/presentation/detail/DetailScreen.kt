@@ -1,7 +1,6 @@
 package com.example.hotelapp.presentation.detail
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -45,12 +44,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.example.hotelapp.R
 import com.example.hotelapp.hotelList
 import com.example.hotelapp.navigation.Route
@@ -67,7 +66,8 @@ import com.example.hotelapp.presentation.detail.components.ReviewItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(navController: NavController, hotelId: String
+fun DetailScreen(
+    navController: NavController, hotelId: String
 ) {
 
     val hotel = hotelList.find { it.id == hotelId.toInt() }
@@ -118,8 +118,8 @@ fun DetailScreen(navController: NavController, hotelId: String
                         .aspectRatio(1.513f)
                         .padding(16.dp)
                 ) {
-                    Image(
-                        painter = painterResource(hotel!!.imageRes),
+                    AsyncImage(
+                        model = hotel!!.imageUrl ?: hotel.imageRes,
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -249,10 +249,12 @@ private fun HotelHeadline(
 
 @Composable
 private fun DetailSection() {
-    Text(text = "Details",
+    Text(
+        text = "Details",
         color = MaterialTheme.colorScheme.primary,
         style = MaterialTheme.typography.titleMedium,
-        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp))
+        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+    )
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -341,7 +343,9 @@ fun PreviewSection(
 
 @Composable
 private fun FacilitiesSection() {
-    Column(modifier = Modifier.padding(top = 16.dp).padding(horizontal = 16.dp)) {
+    Column(modifier = Modifier
+        .padding(top = 16.dp)
+        .padding(horizontal = 16.dp)) {
 
         Text("Facilities", fontWeight = FontWeight.Medium)
 
