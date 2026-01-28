@@ -110,7 +110,7 @@ fun DashboardScreen(
                 },
                 onHotelCardClick = { hotelId ->
                     navController.navigate(
-                        Route.DetailGraph.create(
+                        Route.HotelDetail.create(
                             hotelId
                         )
                     )
@@ -139,7 +139,7 @@ fun DashboardScreen(
         }
         popularList(
             populars = hotelList,
-            onCardClick = { hotelId -> navController.navigate(Route.DetailGraph.create(hotelId)) }
+            onCardClick = { hotelId -> navController.navigate(Route.HotelDetail.create(hotelId)) }
         )
 
     }

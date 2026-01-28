@@ -26,12 +26,12 @@ sealed class Route {
 
     // Detail flow (GRAPH + DESTINATIONS)
     object DetailGraph : Route() {
-        const val route = "detail/{hotelId}"
-        fun create(hotelId: String) = "detail/$hotelId"
+        const val route = "detail"
     }
 
     object HotelDetail : Route() {
-        const val route = "hotel_detail"
+        const val route = "hotel_detail/{hotelId}"
+        fun create(hotelId: String) = "detail/$hotelId"
     }
 
     object RoomSelection : Route() {

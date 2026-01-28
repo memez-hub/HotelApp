@@ -17,18 +17,14 @@ import com.example.hotelapp.presentation.dashboard.components.DashboardScreenTop
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreen(navController: NavController, content: @Composable ()-> Unit) {
+fun MainScreen(navController: NavController, content: @Composable () -> Unit) {
 
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
 
-    val items = listOf(
-        BottomNavItem.Home,
-        BottomNavItem.Schedule,
-        BottomNavItem.Search
-    )
+    val items = BottomNavItem.items
 
     val showBottomBar = items.any { it.route == currentRoute }
 
@@ -36,17 +32,17 @@ fun MainScreen(navController: NavController, content: @Composable ()-> Unit) {
         containerColor = MaterialTheme.colorScheme.background,
 
         topBar = {
-            if(currentRoute != BottomNavItem.Search.route){
+            if (currentRoute != BottomNavItem.Search.route) {
                 DashboardScreenTopBar()
             }
         },
         bottomBar = {
-            BottomNavigationBar(
-                navController = navController
-            )
+            if (showBottomBar) {
+                BottomNavigationBar(navController = navController)
+            }
         }
     ) { padding ->
-        Box(Modifier.padding(padding)){
+        Box(Modifier.padding(padding)) {
             content()
         }
 

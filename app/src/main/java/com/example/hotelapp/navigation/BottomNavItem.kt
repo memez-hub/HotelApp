@@ -12,19 +12,23 @@ sealed class BottomNavItem(
     val label: String
 ) {
     object Home : BottomNavItem(
-        route = "home",
+        route = Route.Home.route,
         icon = Icons.Default.Home,
         label = "Home"
     )
     object Search : BottomNavItem(
-        route = "search",
+        route = Route.Search.route,
         icon = Icons.Default.Search,
         label = "Search"
     )
 
     object Schedule: BottomNavItem(
-        route = "schedule",
+        route = Route.Schedule.route,
         icon = Icons.Default.DateRange,
         label = "Schedule"
     )
+
+    companion object{
+        val items = listOf(Home, Search, Schedule)
+    }
 }
