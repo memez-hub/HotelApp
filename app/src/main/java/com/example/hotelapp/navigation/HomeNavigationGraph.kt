@@ -1,14 +1,12 @@
 package com.example.hotelapp.navigation
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.hotelapp.ui.dashboard.DashboardScreen
-import com.example.hotelapp.ui.schedule.ScheduleScreen
-import com.example.hotelapp.ui.search.SearchScreen
+import com.example.hotelapp.presentation.dashboard.DashboardScreen
+import com.example.hotelapp.presentation.schedule.ScheduleScreen
+import com.example.hotelapp.presentation.search.SearchScreen
 
 @Composable
 fun HomeNavGraph(

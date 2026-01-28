@@ -5,8 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.hotelapp.getHotelId
-import com.example.hotelapp.ui.detail.DetailScreen
-import kotlinx.coroutines.flow.combine
+import com.example.hotelapp.presentation.detail.DetailScreen
 
 
 fun NavGraphBuilder.hotelNavGraph(navController: NavHostController) {

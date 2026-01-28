@@ -4,10 +4,10 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.hotelapp.ui.dashboard.DashboardScreen
-import com.example.hotelapp.ui.mainScreen.MainScreen
-import com.example.hotelapp.ui.schedule.ScheduleScreen
-import com.example.hotelapp.ui.search.SearchScreen
+import com.example.hotelapp.presentation.dashboard.DashboardScreen
+import com.example.hotelapp.presentation.mainScreen.MainScreen
+import com.example.hotelapp.presentation.schedule.ScheduleScreen
+import com.example.hotelapp.presentation.search.SearchScreen
 
 fun NavGraphBuilder.dashboardNavGraph(navController: NavController){
     navigation(
@@ -16,7 +16,7 @@ fun NavGraphBuilder.dashboardNavGraph(navController: NavController){
     ){
         composable(Route.Home.route){
             MainScreen(navController){
-                DashboardScreen(navController)
+                DashboardScreen(navController = navController)
             }
         }
         composable(Route.Search.route){
