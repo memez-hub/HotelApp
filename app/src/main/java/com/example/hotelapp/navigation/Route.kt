@@ -31,7 +31,7 @@ sealed class Route {
 
     object HotelDetail : Route() {
         const val route = "hotel_detail/{hotelId}"
-        fun create(hotelId: String) = "detail/$hotelId"
+        fun create(hotelId: String) = "hotel_detail/$hotelId"
     }
 
     object RoomSelection : Route() {

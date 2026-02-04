@@ -41,7 +41,7 @@ fun HotelCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = modifier
             .fillMaxWidth()
-            .height(120.dp)
+            .height(140.dp)
             .padding(10.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface,

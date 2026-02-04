@@ -37,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,10 +49,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.hotelapp.R
-import com.example.hotelapp.hotelList
 import com.example.hotelapp.navigation.Route
 import com.example.hotelapp.presentation.bottomSheets.BookingBottomSheet
 import com.example.hotelapp.presentation.components.BookingNowButton
@@ -70,7 +71,13 @@ fun DetailScreen(
     navController: NavController, hotelId: String
 ) {
 
-    val hotel = hotelList.find { it.id == hotelId.toInt() }
+    val detailViewModel: DetailScreenViewModel = viewModel()
+    val hotel = detailViewModel.hotel
+
+    LaunchedEffect(hotelId) {
+        detailViewModel.loadHotelById(hotelId.toInt())
+    }
+
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val sheetState = rememberModalBottomSheetState(
@@ -104,6 +111,17 @@ fun DetailScreen(
             )
         }
     ) { paddingValues ->
+        if (hotel == null) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(paddingValues),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("Loading hotel details...")
+            }
+        } else{
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -119,7 +137,7 @@ fun DetailScreen(
                         .padding(16.dp)
                 ) {
                     AsyncImage(
-                        model = hotel!!.imageUrl ?: hotel.imageRes,
+                        model = hotel.imageUrl ?: hotel.imageRes,
                         contentDescription = "",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier
@@ -127,10 +145,10 @@ fun DetailScreen(
                     )
                 }
             }
-            item { FeatureSection(rating = hotel!!.rating) }
+            item { FeatureSection(rating = hotel.rating) }
             item {
                 HotelHeadline(
-                    hotelName = hotel!!.name,
+                    hotelName = hotel.name,
                     pricePerNight = hotel.pricePerNight,
                     location = hotel.location
                 )
@@ -138,14 +156,7 @@ fun DetailScreen(
             item { DetailSection() }
             item {
                 HotelDescription(
-                    description = "Aston Hotel, Alice Springs NT 0870," +
-                            " Australia is a modern hotel," +
-                            " elegant 5 star hotel overlooking the sea," +
-                            " perfect for a romantic, charming getaway." +
-                            "Aston Hotel, Alice Springs NT 0870," +
-                            " Australia is a modern hotel," +
-                            " elegant 5 star hotel overlooking the sea," +
-                            " perfect for a romantic, charming getaway."
+                    description = hotel.description
                 )
             }
             item { FacilitiesSection() }
@@ -154,7 +165,7 @@ fun DetailScreen(
             item { ReviewSection() }
         }
 
-    }
+    }}
 }
 
 @Composable
@@ -343,9 +354,11 @@ fun PreviewSection(
 
 @Composable
 private fun FacilitiesSection() {
-    Column(modifier = Modifier
-        .padding(top = 16.dp)
-        .padding(horizontal = 16.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(top = 16.dp)
+            .padding(horizontal = 16.dp)
+    ) {
 
         Text("Facilities", fontWeight = FontWeight.Medium)
 

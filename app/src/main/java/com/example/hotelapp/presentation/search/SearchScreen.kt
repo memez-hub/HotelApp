@@ -18,6 +18,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,6 +40,10 @@ fun SearchScreen(
     navController: NavController
 ) {
     var selectedFilter by remember { mutableStateOf("All Hotel") }
+
+    LaunchedEffect(Unit) {
+        viewModel.loadHotels()
+    }
 
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true
@@ -77,7 +82,7 @@ fun SearchScreen(
             items(viewModel.filteredHotels) { hotel ->
                 HotelCard(
                     hotel = hotel,
-                    onCardClick = { navController.navigate(Route.DetailGraph.create(hotel.id.toString())) }
+                    onCardClick = { navController.navigate(Route.HotelDetail.create(hotel.id.toString())) }
                 )
             }
         }

@@ -8,6 +8,7 @@ fun HotelResponseItem.toHotel(): Hotel{
         id = id,
         name = name,
         location = location,
+        description = description,
         pricePerNight = price_per_night.toString(),
         rating = rating.toString(),
         imageRes = 0,

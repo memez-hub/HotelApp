@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -40,6 +42,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -67,13 +70,14 @@ fun DashboardScreen(
         viewModel.loadHotels()
     }
 
-    val hotelList = if (viewModel.hotels.isNotEmpty()) viewModel.hotels else hotelList
+    val hotelList = viewModel.hotels.ifEmpty { hotelList }
 
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
     ) {
         item {
+            // Section on the top of user space, content filter chips that will filter hotel that displayed
             FilterSection(
                 filterList = filterList,
                 selectedFilterId = selectedFilterId,
@@ -83,6 +87,7 @@ fun DashboardScreen(
             )
         }
         item {
+            // Row for the text between the section
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
@@ -101,9 +106,11 @@ fun DashboardScreen(
                     fontSize = 14.sp,
                 )
             }
+            // End of the Row for the text between the section
         }
         item {
-            HotelSection(
+            // Square hotel cards, made to display an ads to advertise hotels
+            AdsSection(
                 hotelList = hotelList,
                 onRedHeartClick = {
                     Toast.makeText(context, "Heart Click", Toast.LENGTH_SHORT).show()
@@ -117,6 +124,7 @@ fun DashboardScreen(
                 }
             )
         }
+        //Row for the middle TEXT
         item {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -137,6 +145,9 @@ fun DashboardScreen(
                 )
             }
         }
+
+        //List of popular hotel. I have not yet decided on which it should display all hotel,
+        // or just popular once, and at which criteria i filter them.
         popularList(
             populars = hotelList,
             onCardClick = { hotelId -> navController.navigate(Route.HotelDetail.create(hotelId)) }
@@ -168,7 +179,7 @@ private fun FilterSection(
 }
 
 @Composable
-private fun HotelSection(
+private fun AdsSection(
     hotelList: List<Hotel>,
     onRedHeartClick: () -> Unit,
     onHotelCardClick: (String) -> Unit
@@ -198,6 +209,7 @@ private fun CaruselHotelCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         modifier = modifier
             .width(260.dp)
+            .aspectRatio(0.83f)
             .padding(start = 12.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -205,7 +217,7 @@ private fun CaruselHotelCard(
         onClick = onHotelCardClick,
 
         ) {
-        Column {
+        Column(modifier = Modifier.fillMaxHeight()) {
             // Image section
             Box {
                 AsyncImage(
@@ -238,13 +250,15 @@ private fun CaruselHotelCard(
 
             // Content section
             Column(
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier.padding(12.dp).fillMaxHeight()
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = hotel.name,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 14.sp,
                         modifier = Modifier.weight(1f)
@@ -275,9 +289,9 @@ private fun CaruselHotelCard(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.weight(1f))
 
-                Row {
+                Row( verticalAlignment = Alignment.Bottom ) {
                     Text(
                         text = hotel.pricePerNight,
                         color = MaterialTheme.colorScheme.primary,
@@ -299,37 +313,27 @@ private fun CaruselHotelCard(
 val filterList = listOf(
     Filters(
         id = 1,
-        filterName = "Hotel",
+        filterName = "Hotels",
         filterIcon = R.drawable.icon
     ),
     Filters(
         id = 2,
-        filterName = "Hotel",
+        filterName = "Condos",
         filterIcon = R.drawable.icon
     ),
     Filters(
         id = 3,
-        filterName = "Hotel",
+        filterName = "Houses",
         filterIcon = R.drawable.icon
     ),
     Filters(
         id = 4,
-        filterName = "Hotel",
+        filterName = "Villas",
         filterIcon = R.drawable.icon
     ),
     Filters(
         id = 5,
-        filterName = "Hotel",
-        filterIcon = R.drawable.icon
-    ),
-    Filters(
-        id = 6,
-        filterName = "Hotel",
-        filterIcon = R.drawable.icon
-    ),
-    Filters(
-        id = 7,
-        filterName = "Hotel",
+        filterName = "Apartments",
         filterIcon = R.drawable.icon
     )
 )

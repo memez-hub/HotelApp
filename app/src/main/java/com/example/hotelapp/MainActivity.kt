@@ -34,6 +34,7 @@ val hotelList = listOf(
         pricePerNight = "343",
         rating = "4.5",
         imageRes = R.drawable.hotel330841_1280,
+        description = "description",
         accommodationType = "Hotels"
     ),
     Hotel(
@@ -43,6 +44,7 @@ val hotelList = listOf(
         pricePerNight = "412",
         rating = "4.7",
         imageRes = R.drawable.hotel461615_1280,
+        description = "description",
         accommodationType = "Resorts"
     ),
     Hotel(
@@ -52,6 +54,7 @@ val hotelList = listOf(
         pricePerNight = "299",
         rating = "4.3",
         imageRes = R.drawable.hotel2799682_1280,
+        description = "description",
         accommodationType = "Villas"
     ),
     Hotel(
@@ -61,6 +64,7 @@ val hotelList = listOf(
         pricePerNight = "255",
         rating = "4.1",
         imageRes = R.drawable.building66789_1280,
+        description = "description",
         accommodationType = "Hotels"
     ),
     Hotel(
@@ -70,7 +74,8 @@ val hotelList = listOf(
         pricePerNight = "380",
         rating = "4.6",
         imageRes = R.drawable.grandhotel2178413_1280,
-        "Hotels"
+        description = "description",
+        accommodationType = "Apartments"
     ),
     Hotel(
         id = 6,
@@ -79,6 +84,7 @@ val hotelList = listOf(
         pricePerNight = "330",
         rating = "4.4",
         imageRes = R.drawable.hotel2626098_1280,
+        description = "description",
         accommodationType = "Apartments"
     ),
     Hotel(
@@ -88,6 +94,7 @@ val hotelList = listOf(
         pricePerNight = "410",
         rating = "4.8",
         imageRes = R.drawable.mountainhotel1567013_1280,
+        description = "description",
         accommodationType = "Villas"
     ),
     Hotel(
@@ -97,6 +104,7 @@ val hotelList = listOf(
         pricePerNight = "370",
         rating = "4.5",
         imageRes = R.drawable.lounge2930070_1280,
+        description = "description",
         accommodationType = "Hotels"
     ),
     Hotel(
@@ -106,6 +114,7 @@ val hotelList = listOf(
         pricePerNight = "290",
         rating = "4.3",
         imageRes = R.drawable.building66789_1280,
+        description = "description",
         accommodationType = "Villas"
     ),
     Hotel(
@@ -115,6 +124,7 @@ val hotelList = listOf(
         pricePerNight = "460",
         rating = "4.7",
         imageRes = R.drawable.hotel461615_1280,
+        description = "description",
         accommodationType = "Hotels"
     ),
     Hotel(
@@ -124,6 +134,7 @@ val hotelList = listOf(
         pricePerNight = "270",
         rating = "4.2",
         imageRes = R.drawable.victoriafalls2646993_1280,
+        description = "description",
         accommodationType = "Apartments"
     ),
     Hotel(
@@ -133,6 +144,7 @@ val hotelList = listOf(
         pricePerNight = "340",
         rating = "4.6",
         imageRes = R.drawable.hotelimage,
+        description = "description",
         accommodationType = "Resorts"
     )
 )
